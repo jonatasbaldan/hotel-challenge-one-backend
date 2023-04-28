@@ -3,14 +3,13 @@ package com.hotelalura.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 public class PainelInicial extends JPanel {
     private PainelBuscar painelBuscar;
     private PainelRegistroReserva painelRegistroReserva;
     private PainelMenuLadoEsquerdo painelMenuLadoEsquerdo;
     private PainelHome painelHome;
-    private JPanel testando;
+    private JPanel painelDireito;
 
     public PainelInicial() {
         this.setLayout(null);
@@ -33,38 +32,41 @@ public class PainelInicial extends JPanel {
 
         this.add(painelMenuLadoEsquerdo);
         this.setVisible(true);
+
+        painelDireito = new PainelHome();
+        painelDireito.setName("PainelHome");
     }
 
     private void pintarPainelHome(ActionEvent e) {
-        if (Objects.nonNull(painelBuscar)) this.remove(painelBuscar);
-        else if (Objects.nonNull(painelRegistroReserva)) this.remove(painelRegistroReserva);
-
-        if (Objects.isNull(painelHome)) painelHome = new PainelHome();
-
-        this.add(painelHome);
-        this.repaint();
-        this.revalidate();
+        if (!"PainelHome".equals(painelDireito.getName())) {
+            this.remove(painelDireito);
+            painelDireito = new PainelHome();
+            painelDireito.setName("PainelHome");
+            this.add(painelDireito);
+            this.repaint();
+            this.revalidate();
+        }
     }
 
     public void pintarPainelReserva(ActionEvent e) {
-        if (Objects.nonNull(painelBuscar)) this.remove(painelBuscar);
-        else if (Objects.nonNull(painelHome)) this.remove(painelHome);
-
-        if (Objects.isNull(painelRegistroReserva)) painelRegistroReserva = new PainelRegistroReserva();
-
-        this.add(painelRegistroReserva);
-        this.repaint();
-        this.revalidate();
+        if (!"PainelReserva".equals(painelDireito.getName())){
+            this.remove(painelDireito);
+            painelDireito = new PainelRegistroReserva();
+            painelDireito.setName("PainelReserva");
+            this.add(painelDireito);
+            this.repaint();
+            this.revalidate();
+        }
     }
 
     public void pintarPainelBuscar(ActionEvent e) {
-        if (Objects.nonNull(painelRegistroReserva)) this.remove(painelRegistroReserva);
-        else if (Objects.nonNull(painelHome)) this.remove(painelHome);
-
-        if (Objects.isNull(painelBuscar)) painelBuscar = new PainelBuscar();
-
-        this.add(painelBuscar);
-        this.repaint();
-        this.revalidate();
+        if (!"PainelBuscar".equals(painelDireito.getName())) {
+            this.remove(painelDireito);
+            painelDireito = new PainelBuscar();
+            painelDireito.setName("PainelBuscar");
+            this.add(painelDireito);
+            this.repaint();
+            this.revalidate();
+        }
     }
 }
