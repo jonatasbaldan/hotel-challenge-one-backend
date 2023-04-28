@@ -1,7 +1,7 @@
 package com.hotelalura;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import view.MainFrame;
+import com.hotelalura.view.MainFrame;
 
 import javax.swing.*;
 
