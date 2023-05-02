@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame() throws HeadlessException {
+    public MainFrame(JPanel painelPrincial) throws HeadlessException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -13,7 +13,7 @@ public class MainFrame extends JFrame {
         this.setSize(800, 600); //sets x-dimension and y-dimension
         this.setResizable(false);
 
-        this.add(new PainelInicial());
+        this.add(painelPrincial);
 
         this.setVisible(true);
     }
