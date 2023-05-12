@@ -6,78 +6,134 @@ import com.hotelalura.view.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.time.DateTimeException;
 import java.util.Objects;
 
 public class MainController {
 
-    private JPanel painelMenuEsquerdo;
+    private JPanel menuEsquerdoPanel;
     private PrincipalPanel principalPanel;
-    private JPanel painelHome;
-    private RegistrarReservaPanel registroReservaPainel;
-    private BuscarPanel painelBuscar;
-    private CadastrarHospedePanel painelCadastroHospede;
-    private ServiceController serviceController;
+    private JPanel homePanel;
+    private RegistrarReservaPanel registrarReservaPainel;
+    private BuscarPanel buscarPanel;
+    private CadastrarHospedePanel cadastrarHospedePanel;
+    private RegistrarReservaController registrarReservaController;
+    private CadastrarHospedeController cadastrarHospedeController;
+    private JButton homeButton;
+    private JButton registroReservasButton;
+    private JButton buscarButton;
 
     public MainController () {
 
-        serviceController = new ServiceController();
+        cadastrarHospedeController = new CadastrarHospedeController();
+        registrarReservaController = new RegistrarReservaController();
         principalPanel = new PrincipalPanel();
-        principalPanel.setName("Painel Principal");
-        painelMenuEsquerdo = new MenuEsquerdoPanel();
-        painelMenuEsquerdo.setName("Painel Menu Esquerdo");
-        painelHome = new HomePanel();
-        painelHome.setName("Painel Home");
-        registroReservaPainel = new RegistrarReservaPanel();
-        registroReservaPainel.setName("Painel Registro Reserva");
-        painelBuscar = new BuscarPanel();
-        painelBuscar.setName("Painel Buscar");
+        principalPanel.setName("Principal");
+        menuEsquerdoPanel = new MenuEsquerdoPanel();
+        menuEsquerdoPanel.setName("MenuEsquerdo");
+        homePanel = new HomePanel();
+        homePanel.setName("Home");
+        registrarReservaPainel = new RegistrarReservaPanel();
+        registrarReservaPainel.setName("RegistroReserva");
+        buscarPanel = new BuscarPanel();
+        buscarPanel.setName("PainelBuscar");
 
-        JButton homeButton = new MenuEsquerdoButton("Inicio", 80);
-        homeButton.addActionListener(e -> mudarPainel(e, painelHome));
-        painelMenuEsquerdo.add(homeButton);
+        homeButton = new MenuEsquerdoButton("Inicio", 80);
+        homeButton.addActionListener(e -> onMudarPainel(homePanel));
+        menuEsquerdoPanel.add(homeButton);
 
-        JButton registroReservasButton = new MenuEsquerdoButton("Cadastrar Hospede", 140);
-        registroReservasButton.addActionListener(e -> mudarPainel(e, registroReservaPainel));
-        painelMenuEsquerdo.add(registroReservasButton);
+        registroReservasButton = new MenuEsquerdoButton("Cadastrar Hospede", 140);
+        registroReservasButton.addActionListener(e -> onMudarPainel(registrarReservaPainel));
+        menuEsquerdoPanel.add(registroReservasButton);
 
-        JButton buscarButton = new MenuEsquerdoButton("Buscar", 200);
-        buscarButton.addActionListener(e -> mudarPainel(e, painelBuscar));
-        painelMenuEsquerdo.add(buscarButton);
+        buscarButton = new MenuEsquerdoButton("Buscar", 200);
+        buscarButton.addActionListener(e -> onMudarPainel(buscarPanel));
+        menuEsquerdoPanel.add(buscarButton);
 
-        registroReservaPainel.avancarButton.addActionListener(this::avancarCadastro);
+        registrarReservaPainel.avancarButton.addActionListener(this::onAvancarCadastro);
 
         principalPanel = new PrincipalPanel();
-        principalPanel.add(painelMenuEsquerdo);
+        principalPanel.add(menuEsquerdoPanel);
         principalPanel.setVisible(true);
     }
 
-    public void mudarPainel(ActionEvent e, JPanel painel) {
+    public void onMudarPainel(JPanel painel) {
         System.out.println(painel.getName());
-        if (!painel.getName().equals(principalPanel.getNomePainel())) {
+
+        if ("CadastroHospede".equals(principalPanel.getNomePainel()) && "RegistroReserva".equals(painel.getName())) {
+            principalPanel.atualizarPainelDireito(cadastrarHospedePanel);
+        }
+        else if (!painel.getName().equals(principalPanel.getNomePainel())) {
             System.out.println(painel.getName() + " if");
             principalPanel.atualizarPainelDireito(painel);
         }
     }
 
-    public void avancarCadastro(ActionEvent e) {
-        Reserva reserva = registroReservaPainel.getReserva();
-        serviceController.cadastrarReserva(reserva);
+    public void onAvancarCadastro(ActionEvent e) {
+        Reserva reserva = registrarReservaPainel.getReserva();
+        registrarReservaController.prepararReserva(reserva);
 
-        painelCadastroHospede = new CadastrarHospedePanel(reserva);
-        painelCadastroHospede.salvarButton.addActionListener(this::concluirCadastro);
-        principalPanel.atualizarPainelDireito(painelCadastroHospede);
+        try {
+            registrarReservaPainel.temDisponibilidade();
+
+            cadastrarHospedePanel = new CadastrarHospedePanel(reserva);
+            cadastrarHospedePanel.setName("CadastroHospede");
+            cadastrarHospedePanel.salvarButton.addActionListener(ev -> onConcluirCadastro(reserva));
+            cadastrarHospedePanel.cancelarButton.addActionListener(ev -> onCancelarCadastro(reserva));
+            buscarButton.setEnabled(false);
+            homeButton.setEnabled(false);
+            onMudarPainel(cadastrarHospedePanel);
+        } catch (DateTimeException ex) {
+            JFrame tempFrame = new JFrame();
+            JOptionPane.showMessageDialog(tempFrame, ex.getMessage(), "Erro ao reservar data", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    private void concluirCadastro(ActionEvent e) {
+    private void onConcluirCadastro(Reserva reserva) {
 
-        Hospede hospede = painelCadastroHospede.getHospede();
+        try {
+            Hospede hospede = cadastrarHospedePanel.getHospede();
+            System.out.println(hospede);
 
-        serviceController.cadastrarHospede(hospede);
-        registroReservaPainel = new RegistrarReservaPanel();
+            cadastrarHospedeController.cadastrarHospede(hospede, buscarPanel.getHospedeTabelaModel());
+            reserva.setHospede(hospede);
+            registrarReservaController.cadastrarReserva(reserva, buscarPanel.getReservaTableModel());
+            registrarReservaPainel.resetarCampos();
+            cadastrarHospedePanel.resetarCampos();
 
-        JFrame confirmacaoCadastroFrame = new JFrame();
-        JOptionPane.showMessageDialog(confirmacaoCadastroFrame,"Cadastro concluido com sucesso!");
-        mudarPainel(e, painelBuscar);
+            JFrame confirmacaoCadastroFrame = new JFrame();
+            JOptionPane.showMessageDialog(confirmacaoCadastroFrame,"Cadastro concluido com sucesso!");
+
+            buscarButton.setEnabled(true);
+            homeButton.setEnabled(true);
+
+            onMudarPainel(buscarPanel);
+
+        } catch (NoSuchFieldException | NullPointerException e) {
+            JFrame mensagemErroFrame = new JFrame();
+            String mensagemErro = e.getClass().getSimpleName().equals("NullPointerException") ? "Selecione uma data válida" :
+                    e.getMessage();
+
+            JOptionPane.showMessageDialog(mensagemErroFrame, mensagemErro,
+                    "Erro ao concluir o cadastro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void onCancelarCadastro(Reserva reserva) {
+        JFrame escolhaFrame = new JFrame();
+        int escolha = JOptionPane.showConfirmDialog(escolhaFrame, "Tem certeza que deseja cancelar?",
+                "Cancelar cadastro", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+        // Yes = 0, No = 1
+        if (escolha == 0) {
+            registrarReservaController.removerReserva(reserva);
+            registrarReservaPainel.resetarCampos();
+
+            buscarButton.setEnabled(true);
+            homeButton.setEnabled(true);
+
+            onMudarPainel(buscarPanel);
+        }
     }
 
     public JPanel getPainelPrincial() {

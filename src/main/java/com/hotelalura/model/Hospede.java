@@ -2,6 +2,8 @@ package com.hotelalura.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Hóspedes")
@@ -17,18 +19,21 @@ public class Hospede {
     @Enumerated(EnumType.STRING)
     private Nacionalidade nacionalidade;
     private String telefone;
-    
+    @OneToMany(mappedBy = "hospede", cascade = CascadeType.ALL)
+    private List<Reserva> reservas = new ArrayList<>();
 
-    public Hospede() {}
+    public Hospede() {
+    }
 
     public Hospede(Long id, String nome, String sobreNome, LocalDate dataNascimento, Nacionalidade nacionalidade,
-                   String telefone) {
+                   String telefone, List<Reserva> reservas) {
         this.id = id;
         this.nome = nome;
         this.sobreNome = sobreNome;
         this.dataNascimento = dataNascimento;
         this.nacionalidade = nacionalidade;
         this.telefone = telefone;
+        this.reservas = reservas;
     }
 
     public Long getId() {
@@ -77,6 +82,10 @@ public class Hospede {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
     }
 
     @Override

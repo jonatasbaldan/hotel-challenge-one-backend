@@ -1,29 +1,43 @@
 package com.hotelalura.controller;
 
 import com.hotelalura.dao.ReservaDao;
-import com.hotelalura.model.Hospede;
 import com.hotelalura.model.Reserva;
+import com.hotelalura.model.ReservaTableModel;
 import com.hotelalura.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
+import java.util.Date;
+
 public class RegistrarReservaController {
-    private Reserva reserva;
     private EntityManager em;
     private ReservaDao reservaDao;
 
-    public RegistrarReservaController(EntityManager em) {
-        this.em = em;
+    public RegistrarReservaController() {
+        em = JpaUtil.getEntityManager();
         reservaDao = new ReservaDao(em);
     }
 
-    public RegistrarReservaController(EntityManager em, Reserva reserva) {
-        this.em = em;
-        reservaDao = new ReservaDao(em);
-        this.reserva = reserva;
+    public void cadastrarReserva(Reserva reserva, ReservaTableModel reservaTableModel) {
+        reservaDao.persistirReserva(reserva);
+        reservaTableModel.addRow(reserva);
     }
 
-    public void persistirReserva() {
-        reservaDao.cadastrarReserva(reserva);
+    public void prepararReserva(Reserva reserva) {
+        reservaDao.prepararReserva(reserva);
     }
 
+    public void removerReserva(Reserva reserva) {
+        reservaDao.removerReserva(reserva, reserva.getId());
+    }
+
+    public boolean temReservaDisponibilidade(Date date, String reservaMomento) {
+        switch (reservaMomento) {
+            case "Entrada":
+                return reservaDao.temReservaEntradaDisponibilidade(date);
+            case "Saida":
+                return reservaDao.temReservaSaidaDisponibilidade(date);
+            default:
+                return false;
+        }
+    }
 }

@@ -14,7 +14,7 @@ public class Reserva {
     private LocalDate dataEntrada;
     private LocalDate dataSaida;
     private BigDecimal valor;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Hospede hospede;
     @Enumerated(EnumType.STRING)
     private FormaPagamento formaPagamento;
