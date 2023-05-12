@@ -115,7 +115,7 @@ public class CadastrarHospedePanel extends JPanel {
                 hospede.getTelefone().isBlank();
 
         if (isEmpty) {
-            throw new NoSuchFieldException("Algum campo não foi preenchido.");
+            throw new NoSuchFieldException("Por favor, preencha todos os campos.");
         }
 
         return hospede;
