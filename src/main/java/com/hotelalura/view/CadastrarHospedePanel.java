@@ -1,18 +1,18 @@
 package com.hotelalura.view;
 
-import com.hotelalura.model.Hospede;
-import com.hotelalura.model.Nacionalidade;
-import com.hotelalura.model.Reserva;
+import com.hotelalura.component.BotaoButton;
+import com.hotelalura.component.EscolherData;
+import com.hotelalura.component.NomeLabel;
+import com.hotelalura.component.NomeTituloLabel;
+import com.hotelalura.component.EntradaDeTextoField;
+import com.hotelalura.model.*;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Objects;
 
 public class CadastrarHospedePanel extends JPanel {
     private JTextField nomeField;
@@ -21,8 +21,8 @@ public class CadastrarHospedePanel extends JPanel {
     private JComboBox<Nacionalidade> nacionalidadeLista;
     private JTextField telefoneField;
     private JTextField reservaIdField;
-    public JButton salvarButton;
-    public JButton cancelarButton;
+    public final JButton salvarButton;
+    public final JButton cancelarButton;
 
     public CadastrarHospedePanel(Reserva reserva) {
 
@@ -32,70 +32,56 @@ public class CadastrarHospedePanel extends JPanel {
         System.out.println("Painel Cadastro");
         this.setVisible(true);
 
-        JLabel tituloHospedeLabel = new JLabel("Cadastrar Hospede");
-        tituloHospedeLabel.setBounds(140, 40, 300, 32);
-        tituloHospedeLabel.setFont(new Font("Roboto", Font.BOLD, 24));
+        int alinhamentoXEsquerdo = 90;
+        int alinhamentoXDireito = 260;
+
+        JLabel tituloHospedeLabel = new NomeTituloLabel("Cadastrar Hospede", alinhamentoXEsquerdo, 40);
         this.add(tituloHospedeLabel);
 
-        int alinhamentoX = 90;
-
-        JLabel nomeLabel = new JLabel("Nome");
-        nomeLabel.setBounds(alinhamentoX, 120, 150, 32);
+        JLabel nomeLabel = new NomeLabel("Nome", alinhamentoXEsquerdo, 170);
         this.add(nomeLabel);
 
-        nomeField = new JTextField();
-        nomeField.setBounds(alinhamentoX, 150, 150, 32);
+        nomeField = new EntradaDeTextoField("Seu nome", alinhamentoXEsquerdo, 200);
         this.add(nomeField);
 
-        JLabel sobrenomeLabel = new JLabel("Sobrenome");
-        sobrenomeLabel.setBounds(alinhamentoX + 170, 120, 150, 32);
+        JLabel sobrenomeLabel = new NomeLabel("Sobrenome", alinhamentoXDireito, 170);
         this.add(sobrenomeLabel);
 
-        sobrenomeField = new JTextField();
-        sobrenomeField.setBounds(alinhamentoX + 170, 150, 150, 32);
+        sobrenomeField = new EntradaDeTextoField("Seu sobrenome", alinhamentoXDireito, 200);
         this.add(sobrenomeField);
 
-        JLabel dataNascimentoLabel = new JLabel("Data de Nascimento");
-        dataNascimentoLabel.setBounds(alinhamentoX, 200, 150, 32);
+        JLabel dataNascimentoLabel = new NomeLabel("Data de Nascimento", alinhamentoXEsquerdo, 250);
         this.add(dataNascimentoLabel);
 
-        dataNascimentoDate = new JDateChooser();
-        dataNascimentoDate.setBounds(alinhamentoX, 230, 150, 32);
-        dataNascimentoDate.setDateFormatString("yyyy-MM-dd");
+        dataNascimentoDate = new EscolherData(alinhamentoXEsquerdo, 280);
         this.add(dataNascimentoDate);
 
-        JLabel nacionalidadeLabel = new JLabel("Nacionalidade");
-        nacionalidadeLabel.setBounds(alinhamentoX + 170, 200, 150, 32);
+        JLabel nacionalidadeLabel = new NomeLabel("Nacionalidade", alinhamentoXDireito, 250);
         this.add(nacionalidadeLabel);
 
         nacionalidadeLista = new JComboBox<>(Nacionalidade.values());
         nacionalidadeLista.setSelectedItem(Nacionalidade.BRASILEIRO);
-        nacionalidadeLista.setBounds(alinhamentoX + 170, 230, 150, 32);
+        nacionalidadeLista.setBounds(alinhamentoXDireito, 280, 150, 32);
         this.add(nacionalidadeLista);
 
-        JLabel telefoneLabel = new JLabel("Telefone");
-        telefoneLabel.setBounds(alinhamentoX, 280, 150, 32);
+        JLabel telefoneLabel = new NomeLabel("Telefone", alinhamentoXEsquerdo, 330);
         this.add(telefoneLabel);
 
-        telefoneField = new JTextField();
-        telefoneField.setBounds(alinhamentoX, 310, 150, 32);
+        telefoneField = new EntradaDeTextoField("2299883393", alinhamentoXEsquerdo, 360);
         this.add(telefoneField);
 
-        JLabel reservaIdLabel = new JLabel("Numero da Reserva");
-        reservaIdLabel.setBounds(alinhamentoX + 170, 280, 150, 32);
+        JLabel reservaIdLabel = new NomeLabel("Numero da Reserva", alinhamentoXDireito, 330);
         this.add(reservaIdLabel);
 
         reservaIdField = new JTextField(String.valueOf(reserva.getId()));
-        reservaIdField.setBounds(alinhamentoX + 170, 310, 150, 32);
+        reservaIdField.setBounds(alinhamentoXDireito, 360, 150, 32);
         reservaIdField.setEditable(false);
         this.add(reservaIdField);
 
-        salvarButton = new JButton("Salvar");
-        salvarButton.setBounds(alinhamentoX + 170, 400, 150, 32);
+        salvarButton = new BotaoButton("Salvar", alinhamentoXEsquerdo, 450);
         this.add(salvarButton);
 
-        cancelarButton = new JButton("Cancelar");
-        cancelarButton.setBounds(alinhamentoX, 400, 150, 32);
+        cancelarButton = new BotaoButton("Cancelar", alinhamentoXDireito, 450);
         this.add(cancelarButton);
     }
 

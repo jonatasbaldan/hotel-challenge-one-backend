@@ -1,14 +1,13 @@
 package com.hotelalura.dao;
 
 import com.hotelalura.model.Reserva;
-import com.hotelalura.util.DateUtilHotel;
+import com.hotelalura.util.DateHotelUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class ReservaDao {
 
@@ -29,8 +28,10 @@ public class ReservaDao {
     }
 
     public void prepararReserva(Reserva reserva) {
-        em.clear();
-        if (!em.isOpen()) em.getTransaction().begin();
+        if (!em.getTransaction().isActive()) em.getTransaction().begin();
+        else {
+            em.clear();
+        }
         em.persist(reserva);
     }
 
@@ -73,7 +74,7 @@ public class ReservaDao {
 
     public boolean temReservaEntradaDisponibilidade(Date data) {
 
-        LocalDate dataLocal = LocalDate.ofInstant(data.toInstant(), DateUtilHotel.getZoneId());
+        LocalDate dataLocal = LocalDate.ofInstant(data.toInstant(), DateHotelUtil.getZoneId());
         String jpql = "SELECT r FROM Reserva r WHERE r.dataEntrada = :data";
         TypedQuery<Reserva> query = em.createQuery(jpql, Reserva.class)
                 .setParameter("data", dataLocal);
@@ -86,7 +87,7 @@ public class ReservaDao {
 
     public boolean temReservaSaidaDisponibilidade(Date data) {
 
-        LocalDate dataLocal = LocalDate.ofInstant(data.toInstant(), DateUtilHotel.getZoneId());
+        LocalDate dataLocal = LocalDate.ofInstant(data.toInstant(), DateHotelUtil.getZoneId());
         String jpql = "SELECT r FROM Reserva r WHERE r.dataSaida = :data";
         TypedQuery<Reserva> query = em.createQuery(jpql, Reserva.class)
                 .setParameter("data", dataLocal);

@@ -1,5 +1,7 @@
 package com.hotelalura.view;
 
+import com.hotelalura.util.FonteUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +16,7 @@ public class MainFrame extends JFrame {
         this.setResizable(false);
 
         this.add(painelPrincial);
-
+        this.setFont(FonteUtil.getFontePadrao());
         this.setVisible(true);
     }
 }

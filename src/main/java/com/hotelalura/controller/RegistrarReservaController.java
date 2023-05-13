@@ -6,11 +6,13 @@ import com.hotelalura.model.ReservaTableModel;
 import com.hotelalura.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class RegistrarReservaController {
     private EntityManager em;
     private ReservaDao reservaDao;
+    public static BigDecimal valorPorDia = new BigDecimal(20);
 
     public RegistrarReservaController() {
         em = JpaUtil.getEntityManager();
@@ -30,7 +32,7 @@ public class RegistrarReservaController {
         reservaDao.removerReserva(reserva, reserva.getId());
     }
 
-    public boolean temReservaDisponibilidade(Date date, String reservaMomento) {
+    public boolean isReservaDisponivel(Date date, String reservaMomento) {
         switch (reservaMomento) {
             case "Entrada":
                 return reservaDao.temReservaEntradaDisponibilidade(date);

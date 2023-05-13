@@ -11,7 +11,6 @@ public class ReservaTableModel extends AbstractTableModel {
     private String[] columns = {"Id", "Data Entrada", "Data Saída", "Valor", "Forma de Pagamento"};
     private List<Reserva> reservaList;
 
-
     public ReservaTableModel(List<Reserva> reservas) {
         this.reservaList = reservas;
     }

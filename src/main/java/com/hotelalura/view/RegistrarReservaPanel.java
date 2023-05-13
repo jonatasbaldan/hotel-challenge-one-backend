@@ -1,9 +1,9 @@
 package com.hotelalura.view;
 
+import com.hotelalura.component.*;
 import com.hotelalura.controller.RegistrarReservaController;
-import com.hotelalura.model.FormaPagamento;
-import com.hotelalura.model.Reserva;
-import com.hotelalura.util.DateUtilHotel;
+import com.hotelalura.model.*;
+import com.hotelalura.util.DateHotelUtil;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -17,9 +17,9 @@ import java.util.Date;
 
 public class RegistrarReservaPanel extends JPanel {
 
-    private JDateChooser dataCheckIn;
-    private JDateChooser dataCheckOut;
-    public JButton avancarButton;
+    private JDateChooser checkInDate;
+    private JDateChooser checkOutDate;
+    public final JButton avancarButton;
     private JTextField totalField;
     private JComboBox<FormaPagamento> formasPagamentoBox;
     private BigDecimal valorTotal;
@@ -32,74 +32,54 @@ public class RegistrarReservaPanel extends JPanel {
         System.out.println(this.getName());
         this.setVisible(true);
 
-        this.setFont(new Font("Arial", Font.PLAIN, 13));
+        int alinhamentoXEsquerdo = 90;
+        int alinhamentoXDireito = 260;
 
-        JLabel tituloReservaLabel = new JLabel("Registrar Reserva");
-        tituloReservaLabel.setBounds(140, 40, 300, 32);
-        tituloReservaLabel.setFont(new Font("Roboto", Font.BOLD, 24));
+        JLabel tituloReservaLabel = new NomeTituloLabel("Registrar Reserva", alinhamentoXEsquerdo, 40);
         this.add(tituloReservaLabel);
 
-        int alinhamentoX = 160;
+        JLabel checkInLabel = new NomeLabel("Data check in", alinhamentoXEsquerdo, 170);
+        this.add(checkInLabel);
 
-        JLabel dataCheckInTexto = new JLabel("Data check in");
-        dataCheckInTexto.setBounds(alinhamentoX, 120, 150, 32);
-        this.add(dataCheckInTexto);
+        checkInDate = new EscolherData(alinhamentoXEsquerdo, 200);
+        checkInDate.setDate(DateHotelUtil.dataAgora);
+        checkInDate.addPropertyChangeListener(e -> onCalcularValor());
+        this.add(checkInDate);
 
-        dataCheckIn = new JDateChooser();
-        dataCheckIn.setBounds(alinhamentoX, 150, 170, 32);
-        dataCheckIn.setDateFormatString("dd-MM-yyy");
-        dataCheckIn.setDate(Date.from(Instant.now()));
-        dataCheckIn.addPropertyChangeListener(e -> calcularValor());
-        this.add(dataCheckIn);
+        JLabel checkOutLabel = new NomeLabel("Data check out", alinhamentoXDireito, 170);
+        this.add(checkOutLabel);
 
-        JLabel dataCheckOutTexto = new JLabel("Data check out");
-        dataCheckOutTexto.setBounds(alinhamentoX, 200, 150, 32);
-        this.add(dataCheckOutTexto);
+        checkOutDate = new EscolherData(alinhamentoXDireito, 200);
+        checkOutDate.setDate(DateHotelUtil.dataAgora);
+        checkOutDate.addPropertyChangeListener(e -> onCalcularValor());
+        this.add(checkOutDate);
 
-        dataCheckOut = new JDateChooser();
-        dataCheckOut.setBounds(alinhamentoX, 230, 170, 32);
-        dataCheckOut.setDateFormatString("dd-MM-yyy");
-        dataCheckOut.setDate(Date.from(Instant.now()));
-        dataCheckOut.addPropertyChangeListener(e -> calcularValor());
-        this.add(dataCheckOut);
-
-        JLabel pagamentoTexto = new JLabel("Formas de pagamento");
-        pagamentoTexto.setBounds(alinhamentoX, 280, 150, 32);
-        this.add(pagamentoTexto);
+        JLabel pagamentoLabel = new NomeLabel("Formas de pagamento", alinhamentoXEsquerdo, 250);
+        this.add(pagamentoLabel);
 
         formasPagamentoBox = new JComboBox<>(FormaPagamento.values());
-        formasPagamentoBox.setBounds(alinhamentoX, 310, 150, 32);
+        formasPagamentoBox.setBounds(alinhamentoXEsquerdo, 280, 150, 32);
         this.add(formasPagamentoBox);
 
-        JLabel precoLabel = new JLabel("Preço Total: ");
-        precoLabel.setBounds(alinhamentoX, 360, 170, 32);
+        JLabel precoLabel = new NomeLabel("Preço Total", alinhamentoXEsquerdo, 330);
         this.add(precoLabel);
 
-        totalField = new JTextField();
-        totalField.setBounds(alinhamentoX, 390, 150, 32);
-        totalField.setText("R$ 0,00");
-        totalField.setEditable(false);
-        totalField.setFocusable(false);
-        totalField.setBackground(null);
-        totalField.setBorder(null);
+        totalField = new EntrataDeTextoTotalField(alinhamentoXEsquerdo, 360);
         this.add(totalField);
 
-        avancarButton = new JButton("Avançar");
-        avancarButton.setBounds(alinhamentoX, 440, 130, 32);
+        avancarButton = new BotaoButton("Avançar", alinhamentoXEsquerdo, 450);
         this.add(avancarButton);
     }
 
-    private void calcularValor() {
-        Instant dataCheckInInstant = dataCheckIn.getDate().toInstant();
-        Instant dataCheckOutInstant = dataCheckOut.getDate().toInstant();
+    private void onCalcularValor() {
+        Instant dataCheckInInstant = checkInDate.getDate().toInstant();
+        Instant dataCheckOutInstant = checkOutDate.getDate().toInstant();
         long diasEntreInEOut = ChronoUnit.DAYS.between(dataCheckInInstant, dataCheckOutInstant);
         diasEntreInEOut = diasEntreInEOut < 0 ? 0 : diasEntreInEOut + 1L;
 
         avancarButton.setEnabled(diasEntreInEOut != 0);
 
-        BigDecimal valorPorDia = new BigDecimal(20);
-
-        valorTotal = valorPorDia;
+        valorTotal = RegistrarReservaController.valorPorDia;
         valorTotal = valorTotal.multiply(BigDecimal.valueOf(diasEntreInEOut));
         totalField.setText("R$ " + valorTotal + ",00");
     }
@@ -107,11 +87,11 @@ public class RegistrarReservaPanel extends JPanel {
     public Reserva getReserva() {
         Reserva reserva = new Reserva();
 
-        Instant dataEntradaInstant = dataCheckIn.getDate().toInstant();
-        Instant dataSaidaInstant = dataCheckOut.getDate().toInstant();
+        Instant dataEntradaInstant = checkInDate.getDate().toInstant();
+        Instant dataSaidaInstant = checkOutDate.getDate().toInstant();
 
-        reserva.setDataEntrada(LocalDate.ofInstant(dataEntradaInstant, DateUtilHotel.getZoneId()));
-        reserva.setDataSaida(LocalDate.ofInstant(dataSaidaInstant, DateUtilHotel.getZoneId()));
+        reserva.setDataEntrada(LocalDate.ofInstant(dataEntradaInstant, DateHotelUtil.getZoneId()));
+        reserva.setDataSaida(LocalDate.ofInstant(dataSaidaInstant, DateHotelUtil.getZoneId()));
         reserva.setFormaPagamento((FormaPagamento) formasPagamentoBox.getSelectedItem());
         reserva.setValor(valorTotal);
         System.out.println("id: " + reserva.getId());
@@ -120,20 +100,20 @@ public class RegistrarReservaPanel extends JPanel {
     }
 
     public void resetarCampos() {
-        dataCheckIn.setDate(Date.from(Instant.now()));
-        dataCheckOut.setDate(Date.from(Instant.now()));
+        checkInDate.setDate(Date.from(Instant.now()));
+        checkOutDate.setDate(Date.from(Instant.now()));
         formasPagamentoBox.setSelectedItem(FormaPagamento.CREDITO);
     }
 
-    public void temDisponibilidade() throws DateTimeException {
-        Date dataIn = dataCheckIn.getDate();
-        Date dataOut = dataCheckOut.getDate();
+    public void checarDisponibilidade() throws DateTimeException {
+        Date dataIn = checkInDate.getDate();
+        Date dataOut = checkOutDate.getDate();
         RegistrarReservaController registrarReservaController = new RegistrarReservaController();
 
-        if (!registrarReservaController.temReservaDisponibilidade(dataIn, "Entrada")) {
+        if (!registrarReservaController.isReservaDisponivel(dataIn, "Entrada")) {
             System.out.println("Entrada");
             throw new DateTimeException("A data de Check In já está reservada. Escolha outra data.");
-        } else if (!registrarReservaController.temReservaDisponibilidade(dataOut, "Saida")) {
+        } else if (!registrarReservaController.isReservaDisponivel(dataOut, "Saida")) {
             System.out.println("Saida");
             throw new DateTimeException("A data de Check Out já está reservada. Escolha outra data.");
         }

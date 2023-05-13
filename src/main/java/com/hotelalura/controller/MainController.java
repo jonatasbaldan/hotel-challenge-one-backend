@@ -1,7 +1,9 @@
 package com.hotelalura.controller;
 
 import com.hotelalura.model.Hospede;
+import com.hotelalura.component.MenuEsquerdoButton;
 import com.hotelalura.model.Reserva;
+import com.hotelalura.util.IconeUrlUtil;
 import com.hotelalura.view.*;
 
 import javax.swing.*;
@@ -38,15 +40,20 @@ public class MainController {
         buscarPanel = new BuscarPanel();
         buscarPanel.setName("PainelBuscar");
 
-        homeButton = new MenuEsquerdoButton("Inicio", 80);
+        ImageIcon logoMenuEsquerdoIcon = new IconeUrlUtil().getIcone("images/logo-menu-esquerdo-150px.png");
+        JLabel logoMenuEsquerdoLabel = new JLabel(logoMenuEsquerdoIcon);
+        logoMenuEsquerdoLabel.setBounds(30, 20, 150, 150);
+        menuEsquerdoPanel.add(logoMenuEsquerdoLabel);
+
+        homeButton = new MenuEsquerdoButton("Inicio", 200);
         homeButton.addActionListener(e -> onMudarPainel(homePanel));
         menuEsquerdoPanel.add(homeButton);
 
-        registroReservasButton = new MenuEsquerdoButton("Cadastrar Hospede", 140);
+        registroReservasButton = new MenuEsquerdoButton("Cadastrar Hospede", 260);
         registroReservasButton.addActionListener(e -> onMudarPainel(registrarReservaPainel));
         menuEsquerdoPanel.add(registroReservasButton);
 
-        buscarButton = new MenuEsquerdoButton("Buscar", 200);
+        buscarButton = new MenuEsquerdoButton("Buscar", 320);
         buscarButton.addActionListener(e -> onMudarPainel(buscarPanel));
         menuEsquerdoPanel.add(buscarButton);
 
@@ -72,20 +79,21 @@ public class MainController {
     public void onAvancarCadastro(ActionEvent e) {
         Reserva reserva = registrarReservaPainel.getReserva();
         registrarReservaController.prepararReserva(reserva);
+        if (Objects.nonNull(reserva.getId())) {
+            try {
+                registrarReservaPainel.checarDisponibilidade();
 
-        try {
-            registrarReservaPainel.temDisponibilidade();
-
-            cadastrarHospedePanel = new CadastrarHospedePanel(reserva);
-            cadastrarHospedePanel.setName("CadastroHospede");
-            cadastrarHospedePanel.salvarButton.addActionListener(ev -> onConcluirCadastro(reserva));
-            cadastrarHospedePanel.cancelarButton.addActionListener(ev -> onCancelarCadastro(reserva));
-            buscarButton.setEnabled(false);
-            homeButton.setEnabled(false);
-            onMudarPainel(cadastrarHospedePanel);
-        } catch (DateTimeException ex) {
-            JFrame tempFrame = new JFrame();
-            JOptionPane.showMessageDialog(tempFrame, ex.getMessage(), "Erro ao reservar data", JOptionPane.ERROR_MESSAGE);
+                cadastrarHospedePanel = new CadastrarHospedePanel(reserva);
+                cadastrarHospedePanel.setName("CadastroHospede");
+                cadastrarHospedePanel.salvarButton.addActionListener(ev -> onConcluirCadastro(reserva));
+                cadastrarHospedePanel.cancelarButton.addActionListener(ev -> onCancelarCadastro(reserva));
+                buscarButton.setEnabled(false);
+                homeButton.setEnabled(false);
+                onMudarPainel(cadastrarHospedePanel);
+            } catch (DateTimeException ex) {
+                JFrame tempFrame = new JFrame();
+                JOptionPane.showMessageDialog(tempFrame, ex.getMessage(), "Erro ao reservar data", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

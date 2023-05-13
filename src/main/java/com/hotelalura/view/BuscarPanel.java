@@ -1,9 +1,13 @@
 package com.hotelalura.view;
 
+import com.hotelalura.component.BotaoButton;
+import com.hotelalura.component.TabelaJTable;
 import com.hotelalura.controller.BuscarController;
+import com.hotelalura.component.EntradaDeTextoField;
 import com.hotelalura.dao.HospedeDao;
 import com.hotelalura.dao.ReservaDao;
 import com.hotelalura.model.*;
+import com.hotelalura.util.IconeUrlUtil;
 import com.hotelalura.util.JpaUtil;
 
 import javax.swing.*;
@@ -31,34 +35,32 @@ public class BuscarPanel extends JPanel {
 
         buscarController = new BuscarController();
 
-        //TODO: Consertar Bug aonde o Hospede está fazendo 4 consultas.
-
         this.setBounds(240, 20, 520, 520);
         this.setBackground(new Color(0xffffff));
         System.out.println("Painel Buscar");
         this.setLayout(null);
         this.setVisible(true);
 
-        buscarField = new JTextField();
-        buscarField.setName("Campo Buscar");
-        buscarField.setBounds(130, 30, 220, 32);
-        this.add(buscarField);
-
-        JButton buscarButton = new JButton("Buscar");
-        buscarButton.setBounds(350, 30, 120, 32);
+        ImageIcon buscarIcon = new IconeUrlUtil().getIcone("images/icone-procurar.png");
+        JButton buscarButton = new JButton(buscarIcon);
+        buscarButton.setBounds(330, 30, 32, 32);
         buscarButton.addActionListener(this::onBuscarDados);
         this.add(buscarButton);
 
-        editarButton = new JButton("Editar");
-        editarButton.setBounds(240, 80, 120, 32);
+        buscarField = new EntradaDeTextoField("Id ou Sobrenome", 130, 30);
+        buscarField.setName("Campo Buscar");
+        buscarField.setSize(220, 32);
+        this.add(buscarField);
+
+        ImageIcon editarIcon = new IconeUrlUtil().getIcone("images/icone-lapis.png");
+        editarButton = new JButton(editarIcon);
+        editarButton.setBounds(430, 85, 32, 32);
         editarButton.addActionListener(this::onEditarRegistro);
         this.add(editarButton);
 
-        //TODO: Implementar os icones
-        ImageIcon editarIcon = new ImageIcon();
-
-        excluirButton = new JButton("Excluir");
-        excluirButton.setBounds(380, 80, 120, 32);
+        ImageIcon excluirIcon = new IconeUrlUtil().getIcone("images/icone-lixeira.png");
+        excluirButton = new JButton(excluirIcon);
+        excluirButton.setBounds(468, 85, 32, 32);
         excluirButton.addActionListener(this::onDeletarRegistro);
         this.add(excluirButton);
 
@@ -69,15 +71,11 @@ public class BuscarPanel extends JPanel {
         List<Reserva> reservas = reservaDao.getReservas();
 
         hospedeTabelaModel = new HospedeTableModel(hospedes);
-        hospedeTabela = new JTable(hospedeTabelaModel);
-        hospedeTabela.setName("Hospede");
-        hospedeTabela.setCellSelectionEnabled(true);
+        hospedeTabela = new TabelaJTable(hospedeTabelaModel, "Hospede");
         JScrollPane tabelaHospedeScroll = new JScrollPane(hospedeTabela);
 
         reservaTabelaModel = new ReservaTableModel(reservas);
-        reservaTabela = new JTable(reservaTabelaModel);
-        reservaTabela.setName("Reserva");
-        reservaTabela.setCellSelectionEnabled(true);
+        reservaTabela = new TabelaJTable(reservaTabelaModel, "Reserva");
         JScrollPane tabelaReservaScroll = new JScrollPane(reservaTabela);
 
         paineisTabbed = new JTabbedPane();
@@ -86,9 +84,9 @@ public class BuscarPanel extends JPanel {
         paineisTabbed.addTab("Reservas", tabelaReservaScroll);
         this.add(paineisTabbed);
 
-        registrarReservaButton = new JButton("Registrar Reserva");
+        ImageIcon registrarReservaIcon = new IconeUrlUtil().getIcone("images/icone-arquivo.png");
+        registrarReservaButton = new BotaoButton("Registrar reserva", registrarReservaIcon, 20, 470);
         registrarReservaButton.addActionListener(this::onRegistarReserva);
-        registrarReservaButton.setBounds(20, 470, 120, 32);
         this.add(registrarReservaButton);
     }
 
