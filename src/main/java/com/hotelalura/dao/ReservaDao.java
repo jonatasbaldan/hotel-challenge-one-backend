@@ -57,6 +57,11 @@ public class ReservaDao {
         return em.createQuery(jpql, Reserva.class).getResultList();
     }
 
+    public Long getNumeroTotalReservas() {
+        String jpql = "SELECT COUNT(r) FROM Reserva r";
+        return em.createQuery(jpql, Long.class).getSingleResult();
+    }
+
     public Reserva getReserva(Long id) {
         return em.find(Reserva.class, id);
     }

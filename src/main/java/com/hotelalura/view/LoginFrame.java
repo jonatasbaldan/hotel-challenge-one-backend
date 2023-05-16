@@ -6,9 +6,9 @@ import com.hotelalura.util.IconeUrlUtil;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame {
+public class LoginFrame extends JFrame {
 
-    public MainFrame(JPanel painelPrincial) throws HeadlessException {
+    public LoginFrame(JPanel painelPrincial) throws HeadlessException {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -22,5 +22,16 @@ public class MainFrame extends JFrame {
         this.add(painelPrincial);
         this.setFont(FonteUtil.getFontePadrao());
         this.setVisible(true);
+
+        JPanel loginSide = new JPanel();
+        loginSide.setBounds(400, 0,400, 600);
+        loginSide.setBackground(Color.BLUE);
+        this.add(loginSide);
+
+
+        JPanel imageSide = new JPanel();
+        imageSide.setBounds(0, 0, 400, 600);
+        imageSide.setBackground(Color.RED);
+        this.add(imageSide);
     }
 }

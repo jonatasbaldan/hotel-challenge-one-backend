@@ -38,6 +38,11 @@ public class HospedeDao {
         return em.createQuery(jpql, Hospede.class).getResultList();
     }
 
+    public Long getNumeroTotalHospedes() {
+        String jpql = "SELECT COUNT(h) FROM Hospede h";
+        return em.createQuery(jpql, Long.class).getSingleResult();
+    }
+
     public Hospede getHospede(Long id) {
         return em.find(Hospede.class, id);
     }

@@ -15,7 +15,7 @@ public class MainController {
 
     private JPanel menuEsquerdoPanel;
     private PrincipalPanel principalPanel;
-    private JPanel homePanel;
+    private HomePanel homePanel;
     private RegistrarReservaPanel registrarReservaPainel;
     private BuscarPanel buscarPanel;
     private CadastrarHospedePanel cadastrarHospedePanel;
@@ -114,6 +114,8 @@ public class MainController {
 
             buscarButton.setEnabled(true);
             homeButton.setEnabled(true);
+
+            homePanel.updateNumeroHospedesEReservas();
 
             onMudarPainel(buscarPanel);
 
