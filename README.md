@@ -1,4 +1,4 @@
-![image](https://github.com/jonatasbaldan/hotel-challenge-one-backend/assets/107167711/fdd15450-7e20-4f22-904f-e7cde9adee08)
+![image](https://user-images.githubusercontent.com/107167711/226222830-db2f671b-3e9f-4bd5-bb1e-f339a85abe3a.png)
 
 # Edição #4: Challenge ONE Back End - Sprint 02
 
@@ -19,6 +19,14 @@ O sistema contém as seguintes recursos:
 - Banco de dados para armazenar todos os dados solicitados anteriormente.
 
 # Sobre o projeto
+
+## Vídeo
+
+[Google Drive](https://drive.google.com/file/d/14lHOz7Hm1NNeZlM1j7IMSlf9QcbFkY5r/view?usp=sharing)
+
+## Screenshot
+
+![image](https://github.com/jonatasbaldan/hotel-challenge-one-backend/assets/107167711/0e08f0ff-61dc-4fc3-8480-79a101d3d1e6)
 
 ## Futuras implementações
 
