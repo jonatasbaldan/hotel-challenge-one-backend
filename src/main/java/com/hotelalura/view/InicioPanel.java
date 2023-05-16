@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class InicioPanel extends JPanel {
-    private JLabel qtdHospedesLabel;
-    private JLabel qtdReservasLabel;
+/*    private JLabel qtdHospedesLabel;
+    private JLabel qtdReservasLabel;*/
     public InicioPanel() {
         this.setBounds(240, 20, 520, 520);
         this.setLayout(null);

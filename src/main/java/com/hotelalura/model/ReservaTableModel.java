@@ -40,7 +40,7 @@ public class ReservaTableModel extends AbstractTableModel {
             case 2:
                 return reservaList.get(rowIndex).getDataSaida();
             case 3:
-                return reservaList.get(rowIndex).getValor();
+                return  reservaList.get(rowIndex).getValor();
             case 4:
                 return reservaList.get(rowIndex).getFormaPagamento();
             default:

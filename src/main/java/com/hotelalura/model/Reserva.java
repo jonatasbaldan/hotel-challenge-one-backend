@@ -63,9 +63,6 @@ public class Reserva {
         this.valor = valor;
     }
 
-    public Hospede getHospede() {
-        return hospede;
-    }
 
     public void setHospede(Hospede hospede) {
         this.hospede = hospede;

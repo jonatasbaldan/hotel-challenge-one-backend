@@ -4,13 +4,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 public class HospedeTableModel extends AbstractTableModel {
 
     private String[] columns = {"Id", "Nome", "Sobrenome", "Data Nascimento", "Nacionalidade", "Telefone"};
     private List<Hospede> hospedeList;
-    private List<Hospede> hospedeListTodos;
 
     public HospedeTableModel(List<Hospede> hospedes) {
         this.hospedeList = hospedes;
@@ -97,7 +95,6 @@ public class HospedeTableModel extends AbstractTableModel {
     }
 
     public void atualizarHospedes(List<Hospede> hospedes) {
-        hospedeListTodos = hospedeList;
         hospedeList = hospedes;
         fireTableDataChanged();
     }
