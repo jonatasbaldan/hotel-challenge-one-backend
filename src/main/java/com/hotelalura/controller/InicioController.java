@@ -5,9 +5,9 @@ import com.hotelalura.dao.ReservaDao;
 import com.hotelalura.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 
-public class HomeController {
+public class InicioController {
     private EntityManager em;
-    public HomeController() {
+    public InicioController() {
         em = JpaUtil.getEntityManager();
     }
 

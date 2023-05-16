@@ -11,7 +11,7 @@ public class PrincipalPanel extends JPanel {
         this.setSize(800, 600);
         this.setBackground(new Color(0xf6f8fc));
 
-        painelDireito = new HomePanel();
+        painelDireito = new InicioPanel();
         painelDireito.setName("PainelHome");
         this.add(painelDireito);
     }

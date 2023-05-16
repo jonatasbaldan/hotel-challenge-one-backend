@@ -1,8 +1,7 @@
 package com.hotelalura.view;
 
-import com.hotelalura.component.NomeLabel;
-import com.hotelalura.component.NomeTituloLabel;
-import com.hotelalura.controller.HomeController;
+import com.hotelalura.component.TextoLabel;
+import com.hotelalura.component.TextoTituloLabel;
 import com.hotelalura.util.FonteUtil;
 
 import javax.swing.*;
@@ -10,20 +9,20 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class HomePanel extends JPanel {
+public class InicioPanel extends JPanel {
     private JLabel qtdHospedesLabel;
     private JLabel qtdReservasLabel;
-    public HomePanel() {
+    public InicioPanel() {
         this.setBounds(240, 20, 520, 520);
         this.setLayout(null);
         this.setBackground(new Color(0xffffff));
         System.out.println("Painel Home");
         this.setVisible(true);
 
-        JLabel tituloLabel = new NomeTituloLabel("Sistema de Reservas Hotel Alura", 60, 30);
+        JLabel tituloLabel = new TextoTituloLabel("Sistema de Reservas Hotel Alura", 60, 30);
         this.add(tituloLabel);
 
-        HomeController homeController = new HomeController();
+        /*HomeController homeController = new HomeController();
         String qtdReservas = String.valueOf(homeController.getNumeroTotalReservas());
         qtdReservasLabel = new NomeLabel(qtdReservas, 120, 90);
         qtdReservasLabel.setName("qtdReservas");
@@ -42,14 +41,15 @@ public class HomePanel extends JPanel {
 
         JLabel hospedesLabel = new NomeLabel("Hospedes", 305, 120);
         hospedesLabel.setFont(FonteUtil.getFontePadrao().deriveFont(Font.PLAIN, 16));
-        this.add(hospedesLabel);
+        this.add(hospedesLabel);*/
 
-        JLabel bemVindoLabel = new NomeTituloLabel("Seja bem vindo!", 30, 170);
+        JLabel bemVindoLabel = new TextoTituloLabel("Seja bem vindo!", 30, 170);
         bemVindoLabel.setFont(FonteUtil.getFontePadrao().deriveFont(Font.BOLD, 18));
         this.add(bemVindoLabel);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy");
-        JLabel dataLabel = new NomeLabel(dtf.format(LocalDate.now()), 355, 170);
+        JLabel dataLabel = new TextoLabel(dtf.format(LocalDate.now()), 200, 90);
+        dataLabel.setFont(FonteUtil.getFontePadraoTitutlo().deriveFont(Font.BOLD, 18));
         this.add(dataLabel);
 
         JTextArea avisosArea = new JTextArea();
@@ -73,11 +73,11 @@ public class HomePanel extends JPanel {
         this.add(avisosArea);
     }
 
-    public void updateNumeroHospedesEReservas() {
+/*    public void updateNumeroHospedesEReservas() {
         HomeController homeController = new HomeController();
         String qtdHospedes = String.valueOf(homeController.getNumeroTotalHospedes());
         String qtdReservas = String.valueOf(homeController.getNumeroTotalHospedes());
         qtdHospedesLabel.setText(qtdHospedes);
         qtdReservasLabel.setText(qtdReservas);
-    }
+    }*/
 }

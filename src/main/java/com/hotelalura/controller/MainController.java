@@ -15,7 +15,7 @@ public class MainController {
 
     private JPanel menuEsquerdoPanel;
     private PrincipalPanel principalPanel;
-    private HomePanel homePanel;
+    private InicioPanel inicioPanel;
     private RegistrarReservaPanel registrarReservaPainel;
     private BuscarPanel buscarPanel;
     private CadastrarHospedePanel cadastrarHospedePanel;
@@ -33,8 +33,8 @@ public class MainController {
         principalPanel.setName("Principal");
         menuEsquerdoPanel = new MenuEsquerdoPanel();
         menuEsquerdoPanel.setName("MenuEsquerdo");
-        homePanel = new HomePanel();
-        homePanel.setName("Home");
+        inicioPanel = new InicioPanel();
+        inicioPanel.setName("Home");
         registrarReservaPainel = new RegistrarReservaPanel();
         registrarReservaPainel.setName("RegistroReserva");
         buscarPanel = new BuscarPanel();
@@ -46,7 +46,7 @@ public class MainController {
         menuEsquerdoPanel.add(logoMenuEsquerdoLabel);
 
         homeButton = new MenuEsquerdoButton("Inicio", 200);
-        homeButton.addActionListener(e -> onMudarPainel(homePanel));
+        homeButton.addActionListener(e -> onMudarPainel(inicioPanel));
         menuEsquerdoPanel.add(homeButton);
 
         registroReservasButton = new MenuEsquerdoButton("Cadastrar Hospede", 260);
@@ -115,14 +115,14 @@ public class MainController {
             buscarButton.setEnabled(true);
             homeButton.setEnabled(true);
 
-            homePanel.updateNumeroHospedesEReservas();
+            //inicioPanel.updateNumeroHospedesEReservas();
 
             onMudarPainel(buscarPanel);
 
         } catch (NoSuchFieldException | NullPointerException e) {
             JFrame mensagemErroFrame = new JFrame();
-            String mensagemErro = e.getClass().getSimpleName().equals("NullPointerException") ? "Selecione uma data válida" :
-                    e.getMessage();
+            String mensagemErro = e.getClass().getSimpleName().equals("NullPointerException") ?
+                    "Selecione uma data válida" : e.getMessage();
 
             JOptionPane.showMessageDialog(mensagemErroFrame, mensagemErro,
                     "Erro ao concluir o cadastro", JOptionPane.ERROR_MESSAGE);

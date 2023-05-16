@@ -13,13 +13,10 @@ import com.hotelalura.util.JpaUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class BuscarPanel extends JPanel {
@@ -272,6 +269,7 @@ public class BuscarPanel extends JPanel {
                 buscarController.persistirReserva(reserva, reservaTabelaModel);
                 JOptionPane.showMessageDialog(new JFrame(), "Reserva feita com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 frame.dispose();
+
             });
 
             frame.add(reservaPanel);

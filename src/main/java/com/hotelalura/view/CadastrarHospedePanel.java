@@ -2,8 +2,8 @@ package com.hotelalura.view;
 
 import com.hotelalura.component.BotaoButton;
 import com.hotelalura.component.EscolherData;
-import com.hotelalura.component.NomeLabel;
-import com.hotelalura.component.NomeTituloLabel;
+import com.hotelalura.component.TextoLabel;
+import com.hotelalura.component.TextoTituloLabel;
 import com.hotelalura.component.EntradaDeTextoField;
 import com.hotelalura.model.*;
 import com.toedter.calendar.JDateChooser;
@@ -35,28 +35,28 @@ public class CadastrarHospedePanel extends JPanel {
         int alinhamentoXEsquerdo = 90;
         int alinhamentoXDireito = 260;
 
-        JLabel tituloHospedeLabel = new NomeTituloLabel("Cadastrar Hospede", alinhamentoXEsquerdo, 40);
+        JLabel tituloHospedeLabel = new TextoTituloLabel("Cadastrar Hospede", alinhamentoXEsquerdo, 40);
         this.add(tituloHospedeLabel);
 
-        JLabel nomeLabel = new NomeLabel("Nome", alinhamentoXEsquerdo, 170);
+        JLabel nomeLabel = new TextoLabel("Nome", alinhamentoXEsquerdo, 170);
         this.add(nomeLabel);
 
         nomeField = new EntradaDeTextoField("Seu nome", alinhamentoXEsquerdo, 200);
         this.add(nomeField);
 
-        JLabel sobrenomeLabel = new NomeLabel("Sobrenome", alinhamentoXDireito, 170);
+        JLabel sobrenomeLabel = new TextoLabel("Sobrenome", alinhamentoXDireito, 170);
         this.add(sobrenomeLabel);
 
         sobrenomeField = new EntradaDeTextoField("Seu sobrenome", alinhamentoXDireito, 200);
         this.add(sobrenomeField);
 
-        JLabel dataNascimentoLabel = new NomeLabel("Data de Nascimento", alinhamentoXEsquerdo, 250);
+        JLabel dataNascimentoLabel = new TextoLabel("Data de Nascimento", alinhamentoXEsquerdo, 250);
         this.add(dataNascimentoLabel);
 
         dataNascimentoDate = new EscolherData(alinhamentoXEsquerdo, 280);
         this.add(dataNascimentoDate);
 
-        JLabel nacionalidadeLabel = new NomeLabel("Nacionalidade", alinhamentoXDireito, 250);
+        JLabel nacionalidadeLabel = new TextoLabel("Nacionalidade", alinhamentoXDireito, 250);
         this.add(nacionalidadeLabel);
 
         nacionalidadeLista = new JComboBox<>(Nacionalidade.values());
@@ -64,13 +64,13 @@ public class CadastrarHospedePanel extends JPanel {
         nacionalidadeLista.setBounds(alinhamentoXDireito, 280, 150, 32);
         this.add(nacionalidadeLista);
 
-        JLabel telefoneLabel = new NomeLabel("Telefone", alinhamentoXEsquerdo, 330);
+        JLabel telefoneLabel = new TextoLabel("Telefone", alinhamentoXEsquerdo, 330);
         this.add(telefoneLabel);
 
         telefoneField = new EntradaDeTextoField("2299883393", alinhamentoXEsquerdo, 360);
         this.add(telefoneField);
 
-        JLabel reservaIdLabel = new NomeLabel("Numero da Reserva", alinhamentoXDireito, 330);
+        JLabel reservaIdLabel = new TextoLabel("Numero da Reserva", alinhamentoXDireito, 330);
         this.add(reservaIdLabel);
 
         reservaIdField = new JTextField(String.valueOf(reserva.getId()));

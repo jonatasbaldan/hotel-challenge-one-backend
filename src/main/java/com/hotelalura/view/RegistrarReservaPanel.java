@@ -35,10 +35,10 @@ public class RegistrarReservaPanel extends JPanel {
         int alinhamentoXEsquerdo = 90;
         int alinhamentoXDireito = 260;
 
-        JLabel tituloReservaLabel = new NomeTituloLabel("Registrar Reserva", alinhamentoXEsquerdo, 40);
+        JLabel tituloReservaLabel = new TextoTituloLabel("Registrar Reserva", alinhamentoXEsquerdo, 40);
         this.add(tituloReservaLabel);
 
-        JLabel checkInLabel = new NomeLabel("Data check in", alinhamentoXEsquerdo, 170);
+        JLabel checkInLabel = new TextoLabel("Data check in", alinhamentoXEsquerdo, 170);
         this.add(checkInLabel);
 
         checkInDate = new EscolherData(alinhamentoXEsquerdo, 200);
@@ -46,7 +46,7 @@ public class RegistrarReservaPanel extends JPanel {
         checkInDate.addPropertyChangeListener(e -> onCalcularValor());
         this.add(checkInDate);
 
-        JLabel checkOutLabel = new NomeLabel("Data check out", alinhamentoXDireito, 170);
+        JLabel checkOutLabel = new TextoLabel("Data check out", alinhamentoXDireito, 170);
         this.add(checkOutLabel);
 
         checkOutDate = new EscolherData(alinhamentoXDireito, 200);
@@ -54,14 +54,14 @@ public class RegistrarReservaPanel extends JPanel {
         checkOutDate.addPropertyChangeListener(e -> onCalcularValor());
         this.add(checkOutDate);
 
-        JLabel pagamentoLabel = new NomeLabel("Formas de pagamento", alinhamentoXEsquerdo, 250);
+        JLabel pagamentoLabel = new TextoLabel("Formas de pagamento", alinhamentoXEsquerdo, 250);
         this.add(pagamentoLabel);
 
         formasPagamentoBox = new JComboBox<>(FormaPagamento.values());
         formasPagamentoBox.setBounds(alinhamentoXEsquerdo, 280, 150, 32);
         this.add(formasPagamentoBox);
 
-        JLabel precoLabel = new NomeLabel("Preço Total", alinhamentoXEsquerdo, 330);
+        JLabel precoLabel = new TextoLabel("Preço Total", alinhamentoXEsquerdo, 330);
         this.add(precoLabel);
 
         totalField = new EntrataDeTextoTotalField(alinhamentoXEsquerdo, 360);
