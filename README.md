@@ -41,3 +41,7 @@ O sistema contém as seguintes recursos:
 
 [Oracle ONE e Alura](https://www.oracle.com/br/education/oracle-next-education/) - Por prover as imagens: icone de janela e a logo no menu esquerdo.
 
+
+
+![cms_files_10224_1677509014Prancheta_1](https://github.com/jonatasbaldan/hotel-challenge-one-backend/assets/107167711/2cee0bdc-e785-406d-a4c7-67ac04f0dfe1)
+
